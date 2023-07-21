@@ -1,0 +1,32 @@
+#include <SPI.h>
+
+#define SS_PIN 10 // Choose an available pin for Slave Select (SS)
+
+void setup() {
+  Serial.begin(9600); // Initialize Serial for debugging (optional)
+
+  // Initialize SPI communication
+  SPI.begin();
+
+  // Set the SS/CS pin as output
+  pinMode(SS_PIN, OUTPUT);
+}
+
+void loop() {
+  // Select the slave device
+  digitalWrite(SS_PIN, LOW);
+
+  // Data to be sent
+  String dataToSend = "Hello, World!";
+
+  // Send the data via SPI
+  for (uint8_t i = 0; i < dataToSend.length(); i++) {
+    SPI.transfer(dataToSend[i]);
+  }
+
+  // Deselect the slave device
+  digitalWrite(SS_PIN, HIGH);
+
+  // Delay before sending the next data (optional)
+  delay(1000);
+}

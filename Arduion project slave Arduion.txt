@@ -1,0 +1,35 @@
+#include <SPI.h>
+
+#define SS_PIN 10 // Choose an available pin for Slave Select (SS)
+
+void setup() {
+  Serial.begin(9600); // Initialize Serial for debugging (optional)
+
+  // Initialize SPI communication
+  SPI.begin();
+
+  // Set the SS/CS pin as input
+  pinMode(SS_PIN, INPUT);
+}
+
+void loop() {
+  // Check if the Slave Select (SS) pin is low, indicating communication from the master
+  if (digitalRead(SS_PIN) == LOW) {
+    Serial.print("Hello");
+    // Receive data from the master via SPI
+    String receivedData = "jhswdfkjhkjsdhfkj";
+
+    // Read the data until the master indicates the end (sending '0')
+    char receivedChar = SPI.transfer('0'); // Transfer a dummy byte to start the communication
+    Serial.print("Hello from 24");
+    // Process the received data and print it
+    Serial.print("Received: ");
+    Serial.print("Hello from 27");
+    Serial.println(receivedData);
+
+    // Add any additional processing or actions based on the received data here
+
+    // Add a small delay to prevent repeated reads while SS is low
+    delay(100);
+  }
+}
